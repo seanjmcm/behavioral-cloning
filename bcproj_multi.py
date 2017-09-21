@@ -12,7 +12,8 @@ images = []
 measurements = []
 
 for line in lines:
-	source_path = line[0]
+    
+        source_path = line[i]
 	#print(source_path)
 	filename=source_path.split('\\')[-1]
 	current_path = '..\\data-2Clockand1antigood\\IMG\\' + filename

@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 lines = []
-with open('D:/SelfDrivingCar/data-2Clockand1antigood/driving_log.csv') as csvfile:
+with open('D:/selfdrive/2clockwise-1antismoothrec/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         lines.append(line)
@@ -16,13 +16,13 @@ for line in lines:
 		if i==0:
 			correction=0
 		elif i==1:
-			correction=0.1
+			correction=0.05
 		else:
-			correction=-0.1
+			correction=-0.05
 		source_path = line[i]
 		#print(source_path)
 		filename=source_path.split('\\')[-1]
-		current_path = '..\\data-2Clockand1antigood\\IMG\\' + filename
+		current_path = '..\\..\\2clockwise-1antismoothrec\\IMG\\' + filename
 		image=cv2.imread(current_path)
 		images.append(image)
 		measurement = float(line[3])+correction
@@ -56,7 +56,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, validation_split=0.2,shuffle=True, nb_epoch=4)
+model.fit(X_train, y_train, validation_split=0.2,shuffle=True, nb_epoch=5)
 
 model.save('modelv.h5')
 print("fin")
