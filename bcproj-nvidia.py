@@ -12,18 +12,25 @@ images = []
 measurements = []
 
 for line in lines:
-	source_path = line[0]
-	#print(source_path)
-	filename=source_path.split('\\')[-1]
-	current_path = '..\\data-2Clockand1antigood\\IMG\\' + filename
-	image=cv2.imread(current_path)
-	images.append(image)
-	measurement = float(line[3])
-	#flip and append
-	measurements.append(measurement)
-	image_flip=np.fliplr(image)
-	images.append(image_flip)
-	measurements.append(-measurement)
+	for i in range(3):
+		if i==0:
+			correction=0
+		elif i==1:
+			correction=0.1
+		else:
+			correction=-0.1
+		source_path = line[i]
+		#print(source_path)
+		filename=source_path.split('\\')[-1]
+		current_path = '..\\data-2Clockand1antigood\\IMG\\' + filename
+		image=cv2.imread(current_path)
+		images.append(image)
+		measurement = float(line[3])+correction
+		#flip and append
+		measurements.append(measurement)
+		image_flip=np.fliplr(image)
+		images.append(image_flip)
+		measurements.append(-measurement)
 	
    
 X_train = np.array(images)
@@ -37,7 +44,7 @@ from keras.layers import MaxPooling2D
 model = Sequential()
 model.add(Lambda(lambda x:x/255.0 - 0.5, input_shape=(160,320,3))) #((normalise & mean center))
 model.add(Cropping2D(cropping=((58,16),(0,0)))) #crop distracting details
-model.add(Convolution2D(24,5,5,subsample=(2,2),activation="relu"))
+model.add(Convolution2D(24,5,5,subsample=(2,2),activation="relu")) #Convolution2D(nb_filter, nb_row, nb_col, init='glorot_uniform', activation=None, weights=None, border_mode='valid', subsample=(1, 1), dim_ordering='default', W_regularizer=None, b_regularizer=None, activity_regularizer=None, W_constraint=None, b_constraint=None, bias=True)
 model.add(Convolution2D(36,5,5,subsample=(2,2),activation="relu"))
 model.add(Convolution2D(48,5,5,subsample=(2,2),activation="relu"))
 model.add(Convolution2D(64,3,3,activation="relu"))
@@ -49,7 +56,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, validation_split=0.2,shuffle=True, nb_epoch=5)
+model.fit(X_train, y_train, validation_split=0.2,shuffle=True, nb_epoch=4)
 
-model.save('model.h5')
+model.save('modelv.h5')
 print("fin")
