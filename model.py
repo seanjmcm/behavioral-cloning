@@ -22,7 +22,7 @@ for line in lines:
 		elif i==1:
 			correction=0.04
 		elif i==2:
-			correction=+0.04
+			correction=-0.04
 		source_path = line[i]
 		#print(source_path)
 		filename=source_path.split('\\')[-1]
