@@ -80,15 +80,19 @@ For details about how I created the training data, see the next section.
 
 The overall strategy for deriving a model architecture was to first gather sufficient and appropriate training data on which to run the model. 
 
-My first step was to use a convolution neural network model similar to the the LeNet model.  This actually worked and I drove the vehicle successfully around the course, however the vehicle was hugging the corners and I tried to improve the model by adding data.  After approximately 10 hours of further testing, my extra features served only to make the model worse and I could not return it to its 'good' state.  
+My first step was to use a convolution neural network model similar to the the LeNet model.  This actually worked and I drove the vehicle successfully around the course, however the vehicle was hugging the corners and I tried to improve the model by adding data.  After approximately 10 hours of further testing, my extra features served only to make the model worse and I could not return it to its 'good' state.  The was most likely the result of overfitting.
+
+I moved to the NVidia architectecture described in section 1.
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.  In retrospect, the keras documentation revealed that the validation data unlike the training data was not shuffled.  A shuffle before the  validation spilt should assist and improve the validation loss score with respect to the training score as it contained important feature infomration. 
 
-Unable to recreate the early success, I moved to the NVidia architectecture described in section 1.
-
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track, the first bend, bridge, chicane and sharp right corner with water background were particularly tricky.  To improve the driving behavior in these cases, I trained recovery scenarios and drove a number of times on those particular sections.
 
+The learning process could be improved by using a mouse and not recording any data at all in the recovery section before beginning recovery, i.e. driving for 1/3 a second in the recovery zone before turning should not happen.
+
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+
+
 
 ####2. Final Model Architecture
 
